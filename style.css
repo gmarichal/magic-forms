@@ -1,0 +1,125 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #fdf6ec;
+  cursor: crosshair;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  position: relative;
+  touch-action: none;
+}
+
+/* Two stacked layers crossfade between backgrounds so gradients (which can't be
+   CSS-transitioned directly) animate just as smoothly as solid colors. */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+#bgLayer1 {
+  background: #fdf6ec;
+  opacity: 1;
+}
+
+#hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  color: rgba(0, 0, 0, 0.35);
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.8s ease;
+  z-index: 1;
+}
+
+#hint.hidden {
+  opacity: 0;
+}
+
+#soundToggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+#soundToggle:hover {
+  transform: scale(1.08);
+}
+
+#soundToggle:active {
+  transform: scale(0.92);
+}
+
+#soundToggle.muted {
+  background: rgba(255, 255, 255, 0.5);
+  filter: grayscale(1);
+}
+
+#shapesLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.shape {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(0);
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+/* Keyboard-spawned shapes: simple pop-in + auto fade, no interaction to react to */
+.shape--auto {
+  animation: popFade 2.4s ease-out forwards;
+}
+
+@keyframes popFade {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(var(--rot, 0deg));
+    opacity: 0;
+  }
+  12% {
+    transform: translate(-50%, -50%) scale(1.25) rotate(var(--rot, 0deg));
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 60px)) scale(0.8) rotate(var(--rot, 0deg));
+    opacity: 0;
+  }
+}
