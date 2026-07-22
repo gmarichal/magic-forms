@@ -25,3 +25,7 @@ Abrí `index.html` en un navegador, o serví la carpeta con cualquier servidor e
 ## Deploy
 
 Pensado para GitHub Pages: activá Pages sobre la rama principal apuntando a la raíz del repo.
+
+
+
+Con ♥ para mis hijos, papá.
